@@ -3,7 +3,7 @@
 # (Convert to grayscale)
 # (Filter noise)
 # Background subtraction (OR EDGE DETECTION OR THRESHOLDING)
-# (Filter noise)
+# (Filter noise maybe using floodFill)
 # For each connected component or find contours
 # Rotated bounding box
 
