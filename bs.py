@@ -13,6 +13,7 @@
 
 # If contours, maybe use applyPolyDP to get rectangle (https://docs.opencv.org/3.4/d4/d73/tutorial_py_contours_begin.html)
 # Else use goodFeaturesToTrack (https://docs.opencv.org/4.x/d4/d8c/tutorial_py_shi_tomasi.html)
+# Or HoughLines (https://docs.opencv.org/3.4/d9/db0/tutorial_hough_lines.html)
 
 # threshold (not good): Otsu or Triangle (maybe) vs adaptive
 # (OR GLOBAL THRESHOLD) by taking the highest background value in histogram
