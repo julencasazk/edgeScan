@@ -77,6 +77,8 @@ while camera.IsGrabbing():
                 finalPoints = np.array([[0,0],[0, height],[width,height],[width,0]], np.float32)
                 m = cv2.getPerspectiveTransform(points, finalPoints)
                 dsp = cv2.warpPerspective(img, m, (int(width), int(height)))
+                # HACER OTSU THRESHOLD A LA IMAGEN PREPROCESADA
+                # BARRIDO DE ENFOQUE PARA ENFOCARLO AUTOMATICAMENTE
                 cv2.imshow('barcode', dsp)
         cv2.imshow('contour', img)
         cv2.imshow('mask', mask)
