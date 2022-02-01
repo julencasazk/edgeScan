@@ -11,7 +11,7 @@ from pyzbar.pyzbar import decode
 camera = pylon.InstantCamera(pylon.TlFactory.GetInstance().CreateFirstDevice())
 camera.Open()
 # camera.ExposureAuto.SetValue(0)
-pylon.FeaturePersistence.Load('settings.pfs', camera.GetNodeMap(), True)
+pylon.FeaturePersistence.Load('settings_lights_on.pfs', camera.GetNodeMap(), True)
 # Grabing Continusely (video) with minimal delay
 camera.StartGrabbing(pylon.GrabStrategy_LatestImageOnly) 
 converter = pylon.ImageFormatConverter()
@@ -23,8 +23,9 @@ converter.OutputBitAlignment = pylon.OutputBitAlignment_MsbAligned
 bckgrnd = cv2.createBackgroundSubtractorMOG2()
 ref_img = None
 frame_count = 0
-cv2.namedWindow('title', cv2.WINDOW_NORMAL)
+cv2.namedWindow('mask', cv2.WINDOW_NORMAL)
 cv2.namedWindow('contour', cv2.WINDOW_NORMAL)
+cv2.namedWindow('real', cv2.WINDOW_NORMAL)
 
 
 while camera.IsGrabbing():
@@ -37,13 +38,14 @@ while camera.IsGrabbing():
         img = image.GetArray()
         # img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
         if frame_count<15:
-            print("menorquecien")
+            print(f"Capturando Fondo: {frame_count}")
             mask = bckgrnd.apply(img, learningRate= -1)
         else:
             mask = bckgrnd.apply(img, learningRate= 0)
             _, mask = cv2.threshold(mask, 127, 255, cv2.THRESH_BINARY) # Las sombras tienen valor 127
         # img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-        cv2.imshow('title', img)
+        cv2.imshow('mask', mask)
+        cv2.imshow('real', img)
         k = cv2.waitKey(30)
         if k == ord('q'):
             break
@@ -62,7 +64,8 @@ while camera.IsGrabbing():
             cv2.imshow('contour', img)
 
         elif k == ord('b'):
-
+            img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+            _, img = cv2.threshold(img, 127, 255, cv2.THRESH_BINARY)
             res = decode(img)
             print(res)
 
